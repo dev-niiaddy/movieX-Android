@@ -41,7 +41,7 @@
                             android:id="@+id/arcLayout"
                             android:layout_width="match_parent"
                             android:layout_height="250dp"
-                            android:elevation="5dp"
+                            android:elevation="10dp"
                             android:fitsSystemWindows="true"
                             app:arc_cropCurve="cropConvex"
                             app:arc_height="48dp"
@@ -281,6 +281,7 @@
             android:background="@color/colorAccent"
             android:text="@string/add_to_favorites"
             android:textAllCaps="false"
+
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

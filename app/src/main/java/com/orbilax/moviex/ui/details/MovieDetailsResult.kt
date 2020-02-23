@@ -1,4 +1,4 @@
-package com.orbilax.moviex.activity.details
+package com.orbilax.moviex.ui.details
 
 import com.orbilax.moviex.model.MovieDetails
 import com.orbilax.moviex.util.ApiError

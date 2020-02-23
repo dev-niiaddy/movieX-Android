@@ -25,7 +25,3 @@ fun handleApiError(throwable: Throwable, onFailure: (Result.Error) -> Unit) {
         )
     }
 }
-
-fun Double.toPercentage(): Int {
-    return (this * 10).toInt()
-}

@@ -21,4 +21,6 @@
     <string name="moviex_0_0_1">MovieX 0.0.1</string>
     <string name="keep_track_of_everything_you_watch">Keep track of everything you watch</string>
     <string name="about">About</string>
+    <string name="you_have_no_favorites_yet">You have no favorites yet.</string>
+    <string name="movie_details">Movie Details</string>
 </resources>
