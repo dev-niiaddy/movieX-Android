@@ -1,7 +1,6 @@
 package com.orbilax.moviex.ui.favorites
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.orbilax.moviex.R
-import com.orbilax.moviex.util.AutoFitGridLayoutManager
-import kotlinx.android.synthetic.main.fragment_dashboard.*
+import kotlinx.android.synthetic.main.fragment_favorites.*
 
 
 class FavoriteFragment : Fragment() {
@@ -25,7 +23,7 @@ class FavoriteFragment : Fragment() {
     ): View? {
         favoriteViewModel =
             ViewModelProvider(this).get(FavoriteViewModel::class.java)
-        return inflater.inflate(R.layout.fragment_dashboard, container, false)
+        return inflater.inflate(R.layout.fragment_favorites, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,12 +36,19 @@ class FavoriteFragment : Fragment() {
             Observer { result ->
                 result ?: return@Observer
 
+                if (result.isNotEmpty()) {
+                    recyclerView.visibility = View.VISIBLE
+                    emptyState.visibility = View.GONE
+                } else {
+                    return@Observer
+                }
+
                 with(recyclerView) {
-//                    val displayMetrics = DisplayMetrics()
+                    //                    val displayMetrics = DisplayMetrics()
 //                    activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
 //                    val width = displayMetrics.widthPixels
                     layoutManager =
-                        GridLayoutManager(context, 2)
+                        GridLayoutManager(context, 3)
                     adapter = FavoriteAdapter(result)
                 }
             })

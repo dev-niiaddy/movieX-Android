@@ -1,10 +1,9 @@
-package com.orbilax.moviex.activity.details
+package com.orbilax.moviex.ui.details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.orbilax.moviex.repository.MoviesRepository
-import com.orbilax.moviex.ui.home.GenreListResult
 import com.orbilax.moviex.ui.home.MoviePageResult
 import io.reactivex.disposables.CompositeDisposable
 
@@ -22,10 +21,12 @@ class DetailsViewModel(private val moviesRepository: MoviesRepository) : ViewMod
         val s = moviesRepository.getMovieDetails(
             movieId,
             {
-                _movieDetailsResult.value = MovieDetailsResult(it.data)
+                _movieDetailsResult.value =
+                    MovieDetailsResult(it.data)
             },
             {
-                _movieDetailsResult.value = MovieDetailsResult(apiError = it.apiError)
+                _movieDetailsResult.value =
+                    MovieDetailsResult(apiError = it.apiError)
             }
         )
 

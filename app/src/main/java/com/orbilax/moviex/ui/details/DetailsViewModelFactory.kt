@@ -1,4 +1,4 @@
-package com.orbilax.moviex.activity.details
+package com.orbilax.moviex.ui.details
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -1,14 +1,17 @@
 package com.orbilax.moviex.ui.home
 
-import android.content.Intent
+import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.orbilax.moviex.activity.details.DetailsActivity
 import com.orbilax.moviex.R
 import com.orbilax.moviex.model.MovieSummary
 import com.orbilax.moviex.services.MovieService
+import com.orbilax.moviex.ui.bottom_navigation.BottomNavigationFragmentDirections
+import com.orbilax.moviex.ui.details.DetailsFragmentArgs
 import com.orbilax.moviex.util.inflate
 import com.orbilax.moviex.util.toPercentage
 import kotlinx.android.synthetic.main.now_playing_card.view.*
@@ -32,9 +35,10 @@ class MovieAdapter(private val movieSummaries: List<MovieSummary>) :
 
         init {
             view.setOnClickListener {
-                val i = Intent(it.context, DetailsActivity::class.java)
-                i.putExtra(DetailsActivity.MOVIE_ID_KEY, movieSummary.id)
-                it.context.startActivity(i)
+                val navController: NavController =
+                    (view.context as Activity).findNavController(R.id.mainNavHostFragment)
+                val action = BottomNavigationFragmentDirections.showMovieDetails(movieSummary.id)
+                navController.navigate(action)
             }
         }
 

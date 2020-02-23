@@ -33,26 +33,11 @@ class HomeViewModel(private val moviesRepository: MoviesRepository) : ViewModel(
     }
 
     fun getGenreList() {
-        val realm = Realm.getDefaultInstance()
-        val list = realm.where(Genre::class.java).findAll().toMutableList()
-
-        if (list.isNotEmpty()) {
-            val data = GenreList()
-            data.genresList = list
-            _genreListResult.value = GenreListResult(data)
-            return
-        }
-
 
         val s = moviesRepository
             .getGenreList(
                 {
                     _genreListResult.value = GenreListResult(it.data)
-                    it.data.genresList?.apply {
-                        realm.beginTransaction()
-                        realm.copyToRealmOrUpdate(this.toMutableList())
-                        realm.commitTransaction()
-                    }
                 },
                 {
                     _genreListResult.value = GenreListResult(apiError = it.apiError)

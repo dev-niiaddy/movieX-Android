@@ -1,16 +1,15 @@
-package com.orbilax.moviex.ui.notifications
+package com.orbilax.moviex.ui.about
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.orbilax.moviex.R
 
-class NotificationsFragment : Fragment() {
+class AboutFragment : Fragment() {
 
-//    private lateinit var notificationsViewModel: NotificationsViewModel
+    private lateinit var aboutViewModel: AboutViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,

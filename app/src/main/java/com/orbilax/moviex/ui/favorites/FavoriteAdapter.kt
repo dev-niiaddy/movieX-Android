@@ -1,12 +1,14 @@
 package com.orbilax.moviex.ui.favorites
 
+import android.app.Activity
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.orbilax.moviex.R
-import com.orbilax.moviex.activity.details.DetailsActivity
 import com.orbilax.moviex.model.Favorite
 import com.orbilax.moviex.services.MovieService
 import com.orbilax.moviex.util.inflate
@@ -17,7 +19,7 @@ class FavoriteAdapter(private val movieSummaries: List<Favorite>) :
     RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder{
-        val v = parent.inflate(R.layout.movie_card)
+        val v = parent.inflate(R.layout.grid_movie_card)
         return FavoriteViewHolder(v)
     }
 
@@ -32,9 +34,9 @@ class FavoriteAdapter(private val movieSummaries: List<Favorite>) :
 
         init {
             view.setOnClickListener {
-                val i = Intent(it.context, DetailsActivity::class.java)
-                i.putExtra(DetailsActivity.MOVIE_ID_KEY, favorite.id)
-                it.context.startActivity(i)
+                val navController: NavController =
+                    (view.context as Activity).findNavController(R.id.mainNavHostFragment)
+                navController.navigate(R.id.navigation_details)
             }
         }
 

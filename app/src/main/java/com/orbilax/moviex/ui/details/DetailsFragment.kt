@@ -1,12 +1,15 @@
-package com.orbilax.moviex.activity.details
+package com.orbilax.moviex.ui.details
 
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.orbilax.moviex.R
@@ -15,29 +18,32 @@ import com.orbilax.moviex.services.MovieService
 import com.orbilax.moviex.ui.home.MovieAdapter
 import com.orbilax.moviex.util.toPercentage
 import io.realm.Realm
-import kotlinx.android.synthetic.main.activity_details.*
+import kotlinx.android.synthetic.main.fragment_details.*
 
-class DetailsActivity : AppCompatActivity() {
+class DetailsFragment : Fragment() {
 
-    private var movieId: Int =
-        NO_EXTRA_FOUND
+    private val args: DetailsFragmentArgs by navArgs()
 
     private lateinit var detailsViewModel: DetailsViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details)
-        movieId = intent.getIntExtra(
-            MOVIE_ID_KEY,
-            NO_EXTRA_FOUND
-        )
 
-        if (movieId == NO_EXTRA_FOUND) {
-            finish()
-        }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_details, container, false)
+    }
 
-        detailsViewModel = ViewModelProvider(this, DetailsViewModelFactory())
-            .get(DetailsViewModel::class.java)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val movieId = args.movieId
+
+        detailsViewModel = ViewModelProvider(
+            this,
+            DetailsViewModelFactory()
+        ).get(DetailsViewModel::class.java)
 
         detailsViewModel.getMovieDetails(movieId)
         detailsViewModel.getRecommendedMovies(movieId)
@@ -45,14 +51,14 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        detailsViewModel.movieDetailsResult.observe(this,
+        detailsViewModel.movieDetailsResult.observe(viewLifecycleOwner,
             Observer { result ->
                 result ?: return@Observer
 
                 result.success?.apply {
                     progressLayout.visibility = View.GONE
 
-                    Glide.with(this@DetailsActivity)
+                    Glide.with(activity!!)
                         .load("${MovieService.IMAGE_BASE_URL}w780/${this.backdropPath}")
                         .into(movieBackDrop)
 
@@ -88,7 +94,7 @@ class DetailsActivity : AppCompatActivity() {
                         realm.commitTransaction()
 
                         Toast.makeText(
-                            applicationContext,
+                            activity,
                             R.string.added_to_favorites,
                             Toast.LENGTH_SHORT
                         ).show()
@@ -99,7 +105,7 @@ class DetailsActivity : AppCompatActivity() {
             })
 
 
-        detailsViewModel.recommendedMoviesResult.observe(this,
+        detailsViewModel.recommendedMoviesResult.observe(viewLifecycleOwner,
             Observer { result ->
                 result ?: return@Observer
 
@@ -117,10 +123,5 @@ class DetailsActivity : AppCompatActivity() {
 
                 result.apiError?.apply {}
             })
-    }
-
-    companion object {
-        const val MOVIE_ID_KEY = "moviex.tmdb.movie.id"
-        private const val NO_EXTRA_FOUND = -1
     }
 }
