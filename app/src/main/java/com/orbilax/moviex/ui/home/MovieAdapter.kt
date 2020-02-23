@@ -7,11 +7,10 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.orbilax.moviex.BottomNavigationDirections
 import com.orbilax.moviex.R
 import com.orbilax.moviex.model.MovieSummary
 import com.orbilax.moviex.services.MovieService
-import com.orbilax.moviex.ui.bottom_navigation.BottomNavigationFragmentDirections
-import com.orbilax.moviex.ui.details.DetailsFragmentArgs
 import com.orbilax.moviex.util.inflate
 import com.orbilax.moviex.util.toPercentage
 import kotlinx.android.synthetic.main.now_playing_card.view.*
@@ -30,14 +29,21 @@ class MovieAdapter(private val movieSummaries: List<MovieSummary>) :
         holder.bindMovie(movieSummaries[position])
     }
 
-    class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    class MovieViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         private lateinit var movieSummary: MovieSummary
 
         init {
             view.setOnClickListener {
-                val navController: NavController =
-                    (view.context as Activity).findNavController(R.id.mainNavHostFragment)
-                val action = BottomNavigationFragmentDirections.showMovieDetails(movieSummary.id)
+                val navController: NavController = (view.context as Activity).findNavController(R.id.mainNavHostFragment)
+
+                //fix for adapter failure in recommended movies section
+                //under movie details
+                if(navController.currentDestination?.id ==
+                        R.id.navigation_details) {
+                    navController.popBackStack()
+                }
+
+                val action = BottomNavigationDirections.showMovieDetails(movieSummary.id)
                 navController.navigate(action)
             }
         }

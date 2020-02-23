@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.orbilax.moviex.BottomNavigationDirections
 import com.orbilax.moviex.R
 import com.orbilax.moviex.model.Favorite
 import com.orbilax.moviex.services.MovieService
@@ -34,9 +35,9 @@ class FavoriteAdapter(private val movieSummaries: List<Favorite>) :
 
         init {
             view.setOnClickListener {
-                val navController: NavController =
-                    (view.context as Activity).findNavController(R.id.mainNavHostFragment)
-                navController.navigate(R.id.navigation_details)
+                val navController: NavController = view.findNavController()
+                val action = BottomNavigationDirections.showMovieDetails(favorite.id!!)
+                navController.navigate(action)
             }
         }
 

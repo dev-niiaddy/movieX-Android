@@ -3,17 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_bottom">
-
-    <fragment
-        android:id="@+id/navigation_bottom"
-        android:name="com.orbilax.moviex.ui.bottom_navigation.BottomNavigationFragment"
-        android:label="bottom_navigation"
-        tools:layout="@layout/fragment_bottom_navigation" >
-        <action
-            android:id="@+id/showMovieDetails"
-            app:destination="@id/navigation_details" />
-    </fragment>
+    app:startDestination="@+id/bottomNavigation">
 
     <fragment
         android:id="@+id/navigation_details"
@@ -25,5 +15,28 @@
             app:argType="integer"
             android:defaultValue="-1"/>
     </fragment>
+
+    <navigation
+        android:id="@+id/bottomNavigation"
+        app:startDestination="@id/navigation_home" >
+        <fragment
+            android:id="@+id/navigation_home"
+            android:name="com.orbilax.moviex.ui.home.HomeFragment"
+            android:label="@string/title_home"
+            tools:layout="@layout/fragment_home" />
+        <fragment
+            android:id="@+id/navigation_about"
+            android:name="com.orbilax.moviex.ui.about.AboutFragment"
+            android:label="@string/title_notifications"
+            tools:layout="@layout/fragment_notifications" />
+        <fragment
+            android:id="@+id/navigation_favorites"
+            android:name="com.orbilax.moviex.ui.favorites.FavoriteFragment"
+            android:label="@string/title_dashboard"
+            tools:layout="@layout/fragment_favorites" />
+        <action
+            android:id="@+id/showMovieDetails"
+            app:destination="@id/navigation_details" />
+    </navigation>
 
 </navigation>
